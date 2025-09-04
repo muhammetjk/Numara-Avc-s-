@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Esma'ya Özel | Doğum Günü Sürprizi</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --primary-color: #8e44ad;
+            --secondary-color: #9b59b6;
+            --accent-color: #f1c40f;
+            --text-color: #333;
+            --light-color: #f9f9f9;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-color);
+            color: var(--text-color);
+            transition: background-color 0.5s, color 0.5s;
+            overflow-x: hidden;
+        }
+        
+        body.mor-tema {
+            --primary-color: #8e44ad;
+            --secondary-color: #9b59b6;
+            --text-color: #333;
+            --light-color: #f9f9f9;
+        }
+        
+        body.mavi-tema {
+            --primary-color: #3498db;
+            --secondary-color: #2980b9;
+            --text-color: #333;
+            --light-color: #f9f9f9;
+        }
+        
+        body.yesil-tema {
+            --primary-color: #2ecc71;
+            --secondary-color: #27ae60;
+            --text-color: #333;
+            --light-color: #f9f9f9;
+        }
+        
+        body.kirmizi-tema {
+            --primary-color: #e74c3c;
+            --secondary-color: #c0392b;
+            --text-color: #333;
+            --light-color: #f9f9f9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 0;
+            position: relative;
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .countdown {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 30px 0;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .countdown h2 {
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+        
+        #timer {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        #timer div {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            min-width: 80px;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        #timer span {
+            font-size: 0.9rem;
+            font-weight: 400;
+            display: block;
+        }
+        
+        .video-section {
+            margin: 40px 0;
+        }
+        
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .video-item {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .video-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .video-item video {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 3px solid var(--primary-color);
+        }
+        
+        .video-info {
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .music-player {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 40px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .music-player h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .playlist {
+            list-style: none;
+            margin-top: 20px;
+        }
+        
+        .playlist li {
+            padding: 10px;
+            margin: 10px 0;
+            background: #f5f5f5;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .playlist li:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .playlist li.playing {
+            background: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+        
+        .theme-selector {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            padding: 10px;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            z-index: 100;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .theme-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .theme-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .theme-mor { background: #8e44ad; }
+        .theme-mavi { background: #3498db; }
+        .theme-yesil { background: #2ecc71; }
+        .theme-kirmizi { background: #e74c3c; }
+        
+        .hidden-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+            z-index: 1000;
+            text-align: center;
+            display: none;
+            max-width: 80%;
+        }
+        
+        .hidden-message.show {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--primary-color);
+        }
+        
+        .secret-area {
+            margin: 40px 0;
+            text-align: center;
+        }
+        
+        .secret-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .secret-btn:hover {
+            background: var(--secondary-color);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+        
+        .floating-note {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            font-size: 0.9rem;
+            max-width: 200px;
+            z-index: 10;
+            animation: float 6s infinite ease-in-out;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .note-1 { top: 100px; left: 5%; animation-delay: 0s; }
+        .note-2 { top: 250px; right: 5%; animation-delay: 1s; }
+        .note-3 { bottom: 150px; left: 10%; animation-delay: 2s; }
+        .note-4 { bottom: 300px; right: 8%; animation-delay: 3s; }
+        
+        @media (max-width: 768px) {
+            #timer {
+                flex-wrap: wrap;
+            }
+            
+            .floating-note {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body class="mor-tema">
+    <div class="container">
+        <header>
+            <div class="logo">Esma'ya Özel</div>
+            
+            <!-- Küçük Notlar -->
+            <div class="floating-note note-1">Her şey senin için...</div>
+            <div class="floating-note note-2">Seni düşünerek yaptım bunu</div>
+            <div class="floating-note note-3">Farkettiğin küçük detaylar benim imzam</div>
+            <div class="floating-note note-4">Adem Akbaş'ın kızı Esma Nur Akbaş</div>
+        </header>
+        
+        <section class="countdown">
+            <h2>Doğum Gününe Kalan Süre</h2>
+            <div id="timer">
+                <div><span id="days">00</span><span>Gün</span></div>
+                <div><span id="hours">00</span><span>Saat</span></div>
+                <div><span id="minutes">00</span><span>Dakika</span></div>
+                <div><span id="seconds">00</span><span>Saniye</span></div>
+            </div>
+        </section>
+        
+        <section class="video-section">
+            <h2>Senin İçin Hazırladığım Videolar</h2>
+            <div class="video-grid">
+                <div class="video-item">
+                    <video controls>
+                        <source src="video1.mp4" type="video/mp4">
+                        Tarayıcınız video etiketini desteklemiyor.
+                    </video>
+                    <div class="video-info">
+                        <h3>Video 1</h3>
+                        <p>Senin için özel</p>
+                    </div>
+                </div>
+                <div class="video-item">
+                    <video controls>
+                        <source src="video2.mp4" type="video/mp4">
+                        Tarayıcınız video etiketini desteklemiyor.
+                    </video>
+                    <div class="video-info">
+                        <h3>Video 2</h3>
+                        <p>Unutulmaz anılar</p>
+                    </div>
+                </div>
+                <div class="video-item">
+                    <video controls>
+                        <source src="video3.mp4" type="video/mp4">
+                        Tarayıcınız video etiketini desteklemiyor.
+                    </video>
+                    <div class="video-info">
+                        <h3>Video 3</h3>
+                        <p>Özel mesajım var</p>
+                    </div>
+                </div>
+                <div class="video-item">
+                    <video controls>
+                        <source src="video4.mp4" type="video/mp4">
+                        Tarayıcınız video etiketini desteklemiyor.
+                    </video>
+                    <div class="video-info">
+                        <h3>Video 4</h3>
+                        <p>Seni düşünerek yaptım</p>
+                    </div>
+                </div>
+                                <div class="video-item">
+                    <video controls>
+                        <source src="video5.mp4" type="video/mp4">
+                        Tarayıcınız video etiketini desteklemiyor.
+                    </video>
+                    <div class="video-info">
+                        <h3>Video 5</h3>
+                        <p>♾️</p>
+                    </div>
+                </div>
+                                                <div class="video-item">
+                    <video controls>
+                        <source src="video6.mp4" type="video/mp4">
+                        Tarayıcınız video etiketini desteklemiyor.
+                    </video>
+                    <div class="video-info">
+                        <h3>Video 6</h3>
+                        <p>🇹🇷</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="music-player">
+            <h2>Senin İçin Seçtiğim Şarkılar</h2>
+            <audio id="audio-player" controls></audio>
+            <ul class="playlist">
+                <li data-src="sarki1.mp3">Şarkı 1 - Özel</li>
+                <li data-src="sarki2.mp3">Şarkı 2 - Anılar</li>
+                <li data-src="sarki3.mp3">Şarkı 3 - Senin İçin</li>
+                <li data-src="sarki4.mp3">Şarkı 4 - Biz</li>
+                <li data-src="sarki5.mp3">Şarkı 5 - Mutluluk</li>
+            </ul>
+        </section>
+        
+        <section class="secret-area">
+            <button class="secret-btn">Özel Mesaj</button>
+        </section>
+        
+        <footer>
+            <p>Esma Nur Akbaş'a Özel | Tüm Hakları Saklıdır © 2023</p>
+        </footer>
+    </div>
+    
+    <div class="theme-selector">
+        <button class="theme-btn theme-mor" data-theme="mor-tema"></button>
+        <button class="theme-btn theme-mavi" data-theme="mavi-tema"></button>
+        <button class="theme-btn theme-yesil" data-theme="yesil-tema"></button>
+        <button class="theme-btn theme-kirmizi" data-theme="kirmizi-tema"></button>
+    </div>
+    
+    <div class="hidden-message" id="secret-message">
+        <span class="close-btn">&times;</span>
+        <h3>Esma'ya Özel</h3>
+        <p>Biliyor musun, sana bu siteyi hazırlarken her detayı düşündüm. Çünkü sen her detaya değersin. Umarım beğenirsin. Seninle geçirdiğim her an çok kıymetli. Bunu asla unutma.</p>
+        <p><em>Seni çok seven biri...</em></p>
+    </div>
+
+    <script>
+        // Geri sayım fonksiyonu
+        function updateCountdown() {
+            const targetDate = new Date('May 20, 2026 00:00:00').getTime();
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+            
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+        }
+        
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+        
+        // Müzik çalar fonksiyonları
+        const audioPlayer = document.getElementById('audio-player');
+        const playlistItems = document.querySelectorAll('.playlist li');
+        
+        playlistItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const songSrc = this.getAttribute('data-src');
+                audioPlayer.src = songSrc;
+                
+                playlistItems.forEach(item => item.classList.remove('playing'));
+                this.classList.add('playing');
+                
+                audioPlayer.play();
+            });
+        });
+        
+        // Tema değiştirme
+        const themeButtons = document.querySelectorAll('.theme-btn');
+        
+        themeButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const theme = this.getAttribute('data-theme');
+                document.body.className = theme;
+            });
+        });
+        
+        // Gizli mesaj
+        const secretBtn = document.querySelector('.secret-btn');
+        const secretMessage = document.getElementById('secret-message');
+        const closeBtn = document.querySelector('.close-btn');
+        
+        secretBtn.addEventListener('click', function() {
+            secretMessage.classList.add('show');
+        });
+        
+        closeBtn.addEventListener('click', function() {
+            secretMessage.classList.remove('show');
+        });
+        
+        // Sayfa yüklendiğinde
+        window.addEventListener('load', function() {
+            // Küçük notlar için rastgele pozisyonlar
+            const notes = document.querySelectorAll('.floating-note');
+            notes.forEach(note => {
+                const randomX = Math.random() * 80 + 10;
+                const randomY = Math.random() * 70 + 15;
+                note.style.left = `${randomX}%`;
+                note.style.top = `${randomY}%`;
+            });
+        });
+    </script>
+</body>
+</html>
